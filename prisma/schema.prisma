@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Persona {
+  id              String      @id @default(cuid())
+  nombre          String
+  apellido        String
+  dni             Int         @unique
+  fechaNacimiento DateTime
+  email           String      @unique
+  telefono        String
+  docente         Docente?
+  estudiante      Estudiante?
+}
+
+model Docente {
+  id      String   @unique
+  persona Persona? @relation(fields: [id], references: [id])
+}
+
+model Estudiante {
+  id          String        @unique
+  persona     Persona       @relation(fields: [id], references: [id])
+  inscripcion Inscripcion[]
+}
+
+model PlanEstudio {
+  id          String        @id @default(cuid())
+  nombre      String
+  duracion    Int
+  inscripcion Inscripcion[]
+}
+
+model Inscripcion {
+  id                String              @id @default(cuid())
+  fechaInscripcion  DateTime
+  estudiante        Estudiante          @relation(fields: [idEstudiante], references: [id])
+  planEstudio       PlanEstudio         @relation(fields: [idPlanEstudio], references: [id])
+  idPlanEstudio     String
+  idEstudiante      String
+  registroDeMateria RegistroDeMateria[]
+}
+
+model Materia {
+  id            String          @id @default(cuid())
+  nombre        String
+  ofertaMateria OfertaMateria[]
+}
+
+model Turno {
+  id            String          @id @default(cuid())
+  nombre        String
+  ofertaMateria OfertaMateria[]
+}
+
+model OfertaMateria {
+  id                String              @id @default(cuid())
+  cupo              Int
+  materia           Materia             @relation(fields: [idMateria], references: [id])
+  turno             Turno               @relation(fields: [idTurno], references: [id])
+  idMateria         String
+  idTurno           String
+  registroDeMateria RegistroDeMateria[]
+}
+
+model Aula {
+  id        String @id @default(cuid())
+  nombre    String
+  capacidad Int
+}
+
+model RegistroDeMateria {
+  id              String        @id @default(cuid())
+  nota            Float
+  estado          String
+  inscripcion     Inscripcion   @relation(fields: [idInscripcion], references: [id])
+  ofertaMateria   OfertaMateria @relation(fields: [idOfertaMateria], references: [id])
+  idInscripcion   String
+  idOfertaMateria String
+}
