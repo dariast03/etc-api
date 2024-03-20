@@ -10,6 +10,8 @@ import { InscripcionModule } from './inscripcion/inscripcion.module';
 import { OfertaMateriaModule } from './oferta-materia/oferta-materia.module';
 import { AulaModule } from './aula/aula.module';
 import { RegistroDeMateriaModule } from './registro-de-materia/registro-de-materia.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { RegistroDeMateriaModule } from './registro-de-materia/registro-de-mater
     OfertaMateriaModule,
     AulaModule,
     RegistroDeMateriaModule,
+    UsuarioModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

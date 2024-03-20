@@ -26,14 +26,28 @@ model Persona {
 }
 
 model Docente {
-  id      String   @unique
-  persona Persona? @relation(fields: [id], references: [id])
+  id      String  @unique
+  persona Persona @relation(fields: [id], references: [id], map: "persona_docente_fk")
+  usuario Usuario @relation(fields: [id], references: [id], map: "usuario_docente_fk")
 }
 
 model Estudiante {
   id          String        @unique
-  persona     Persona       @relation(fields: [id], references: [id])
+  persona     Persona       @relation(fields: [id], references: [id], map: "persona_estudiante_fk")
+  usuario     Usuario       @relation(fields: [id], references: [id], map: "usuario_estudiante_fk")
   inscripcion Inscripcion[]
+}
+
+model Usuario {
+  id                 String   @id @default(cuid())
+  correo             String
+  contrasena         String
+  rol                Role     @default(ESTUDIANTE)
+  fechaCreacion      DateTime @default(now())
+  fechaActualizacion DateTime @default(now()) @updatedAt
+
+  docentes    Docente[]
+  estudiantes Estudiante[]
 }
 
 model PlanEstudio {
@@ -89,4 +103,10 @@ model RegistroDeMateria {
   ofertaMateria   OfertaMateria @relation(fields: [idOfertaMateria], references: [id])
   idInscripcion   String
   idOfertaMateria String
+}
+
+enum Role {
+  ESTUDIANTE
+  ADMIN
+  DOCENTE
 }
