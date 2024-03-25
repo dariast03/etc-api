@@ -12,6 +12,9 @@ import { AulaModule } from './aula/aula.module';
 import { RegistroDeMateriaModule } from './registro-de-materia/registro-de-materia.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { AuthModule } from './auth/auth.module';
+import { PersonaModule } from './persona/persona.module';
+import { EstudianteModule } from './estudiante/estudiante.module';
+import { DocenteModule } from './docente/docente.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { AuthModule } from './auth/auth.module';
     RegistroDeMateriaModule,
     UsuarioModule,
     AuthModule,
+    PersonaModule,
+    EstudianteModule,
+    DocenteModule,
   ],
   controllers: [AppController],
   providers: [AppService],
