@@ -1,10 +1,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtService } from '@nestjs/jwt';
-import { CreateUsuarioDto, LoginUsuarioDto } from '../usuario/dto';
+import { CreateUsuarioDto, LoginUsuarioDto, RoleEnum } from '../usuario/dto';
 import { JwtPayload } from './strategy/jwt.strategy';
 import { PrismaService } from '../prisma.service';
-import { Usuario } from '@prisma/client';
+import { Role, Usuario } from '@prisma/client';
 import { hash } from 'bcrypt';
 // import {User} from "../users/user.entity";
 
@@ -16,7 +16,7 @@ export class AuthService {
     private readonly usersService: UsuarioService,
   ) {}
 
-  async register(userDto: CreateUsuarioDto): Promise<any> {
+  async register(userDto: CreateUsuarioDto) {
     // // check if the user exists in the db
     const userInDb = await this.prisma.usuario.findFirst({
       where: { correo: userDto.correo },
@@ -25,13 +25,14 @@ export class AuthService {
       throw new HttpException('user_already_exist', HttpStatus.CONFLICT);
     }
 
-    return await this.prisma.usuario.create({
+    const user = await this.prisma.usuario.create({
       data: {
         ...userDto,
-        rol: 'ESTUDIANTE',
         contrasena: await hash(userDto.contrasena, 10),
       },
     });
+
+    return user;
   }
 
   async login(loginUserDto: LoginUsuarioDto): Promise<any> {
