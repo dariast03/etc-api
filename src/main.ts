@@ -4,7 +4,11 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: true,
+    cors: {
+      credentials: true,
+      methods: ['GET', 'POST', 'PUT', 'DELETE'],
+      origin: 'https://instituto-etc.netlify.app',
+    },
   });
 
   const config = new DocumentBuilder()
