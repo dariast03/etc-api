@@ -14,12 +14,15 @@
                               "dest": "src/main.ts",
                               "methods": [
                                         "GET",
-                                        "HEAD",
-                                        "PUT",
-                                        "PATCH",
                                         "POST",
-                                        "DELETE"
-                              ]
+                                        "PUT",
+                                        "DELETE",
+                                        "PATCH",
+                                        "OPTIONS"
+                              ],
+                              "headers": {
+                                        "Access-Control-Allow-Origin": "*"
+                              }
                     }
           ]
 }

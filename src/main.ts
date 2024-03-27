@@ -3,12 +3,14 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
-    cors: {
-      credentials: true,
-      methods: ['GET', 'POST', 'PUT', 'DELETE'],
-      origin: 'https://instituto-etc.netlify.app',
-    },
+  const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: ['https://etc-api-ten.vercel.app/materia', 'http://localhost'],
+    methods: 'GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH',
+    credentials: true,
+    allowedHeaders:
+      'Origin, X-Requested-With, Content-Type, Accept, Authentication, Access-control-allow-credentials, Access-control-allow-headers, Access-control-allow-methods, Access-control-allow-origin, User-Agent, Referer, Accept-Encoding, Accept-Language, Access-Control-Request-Headers, Cache-Control, Pragma',
   });
 
   const config = new DocumentBuilder()
