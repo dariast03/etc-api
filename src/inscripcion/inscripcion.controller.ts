@@ -1,15 +1,31 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { InscripcionService } from './inscripcion.service';
 import { CreateInscripcionDto } from './dto/create-inscripcion.dto';
 import { UpdateInscripcionDto } from './dto/update-inscripcion.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Inscripciones')
 @Controller('inscripcion')
 export class InscripcionController {
   constructor(private readonly inscripcionService: InscripcionService) {}
 
   @Post()
-  async create(@Body() createInscripcionDto: CreateInscripcionDto, @Query('crudQuery') crudQuery: string) {
-    const created = await this.inscripcionService.create(createInscripcionDto, { crudQuery });
+  async create(
+    @Body() createInscripcionDto: CreateInscripcionDto,
+    @Query('crudQuery') crudQuery: string,
+  ) {
+    const created = await this.inscripcionService.create(createInscripcionDto, {
+      crudQuery,
+    });
     return created;
   }
 
@@ -20,7 +36,10 @@ export class InscripcionController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string, @Query('crudQuery') crudQuery: string) {
+  async findOne(
+    @Param('id') id: string,
+    @Query('crudQuery') crudQuery: string,
+  ) {
     const match = await this.inscripcionService.findOne(id, { crudQuery });
     return match;
   }
@@ -31,7 +50,11 @@ export class InscripcionController {
     @Body() updateInscripcionDto: UpdateInscripcionDto,
     @Query('crudQuery') crudQuery: string,
   ) {
-    const updated = await this.inscripcionService.update(id, updateInscripcionDto, { crudQuery });
+    const updated = await this.inscripcionService.update(
+      id,
+      updateInscripcionDto,
+      { crudQuery },
+    );
     return updated;
   }
 

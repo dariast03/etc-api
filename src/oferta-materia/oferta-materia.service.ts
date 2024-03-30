@@ -6,8 +6,8 @@ export class OfertaMateriaService extends PrismaCrudService {
   constructor() {
     super({
       model: 'ofertaMateria',
-      allowedJoins: [],
-      defaultJoins: [],
+      allowedJoins: ['aula', 'turno', 'materia'],
+      defaultJoins: ['aula', 'turno', 'materia'],
     });
   }
 }

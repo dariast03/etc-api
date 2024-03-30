@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['https://etc-api-ten.vercel.app/materia', 'http://localhost'],
+    origin: ['https://etc-api-ten.vercel.app/materia', 'http://localhost:5173'],
     methods: 'GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH',
     credentials: true,
     allowedHeaders:

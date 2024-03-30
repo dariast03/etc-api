@@ -6,8 +6,8 @@ export class InscripcionService extends PrismaCrudService {
   constructor() {
     super({
       model: 'inscripcion',
-      allowedJoins: [],
-      defaultJoins: [],
+      allowedJoins: ['estudiante', 'estudiante.persona', 'planEstudio'],
+      defaultJoins: ['estudiante', 'estudiante.persona', 'planEstudio'],
     });
   }
 }

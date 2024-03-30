@@ -84,15 +84,18 @@ model OfertaMateria {
   cupo              Int
   materia           Materia             @relation(fields: [idMateria], references: [id])
   turno             Turno               @relation(fields: [idTurno], references: [id])
+  aula              Aula                @relation(fields: [idAula], references: [id])
   idMateria         String
   idTurno           String
+  idAula            String
   registroDeMateria RegistroDeMateria[]
 }
 
 model Aula {
-  id        String @id @default(cuid())
-  nombre    String
-  capacidad Int
+  id            String          @id @default(cuid())
+  nombre        String
+  capacidad     Int
+  OfertaMateria OfertaMateria[]
 }
 
 model RegistroDeMateria {
