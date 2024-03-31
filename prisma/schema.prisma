@@ -26,9 +26,10 @@ model Persona {
 }
 
 model Docente {
-  id      String  @unique
-  persona Persona @relation(fields: [id], references: [id], map: "persona_docente_fk")
-  usuario Usuario @relation(fields: [id], references: [id], map: "usuario_docente_fk")
+  id            String          @unique
+  persona       Persona         @relation(fields: [id], references: [id], map: "persona_docente_fk")
+  usuario       Usuario         @relation(fields: [id], references: [id], map: "usuario_docente_fk")
+  ofertaMateria OfertaMateria[]
 }
 
 model Estudiante {
@@ -85,9 +86,11 @@ model OfertaMateria {
   materia           Materia             @relation(fields: [idMateria], references: [id])
   turno             Turno               @relation(fields: [idTurno], references: [id])
   aula              Aula                @relation(fields: [idAula], references: [id])
+  docente           Docente             @relation(fields: [idDocente], references: [id])
   idMateria         String
   idTurno           String
   idAula            String
+  idDocente         String
   registroDeMateria RegistroDeMateria[]
 }
 

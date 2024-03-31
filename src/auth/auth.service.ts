@@ -8,6 +8,10 @@ import { Role, Usuario } from '@prisma/client';
 import { hash } from 'bcrypt';
 // import {User} from "../users/user.entity";
 
+type CreateToken = {
+  correo: string;
+  rol: Role;
+};
 @Injectable()
 export class AuthService {
   constructor(
@@ -40,6 +44,7 @@ export class AuthService {
     const user = await this.usersService.findByLogin(loginUserDto);
 
     // generate and sign token
+    // TODO: FIX
     const token = this._createToken(user);
 
     return {
@@ -48,12 +53,12 @@ export class AuthService {
     };
   }
 
-  private _createToken({ correo }): any {
-    const user: JwtPayload = { correo };
-    const Authorization = this.jwtService.sign(user);
+  private _createToken({ correo, rol }: CreateToken): any {
+    const user: JwtPayload = { correo, rol };
+    const token = this.jwtService.sign(user);
     return {
       expiresIn: process.env.EXPIRESIN,
-      Authorization,
+      token,
     };
   }
 
