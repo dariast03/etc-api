@@ -6,8 +6,26 @@ export class RegistroDeMateriaService extends PrismaCrudService {
   constructor() {
     super({
       model: 'registroDeMateria',
-      allowedJoins: [],
-      defaultJoins: [],
+      allowedJoins: [
+        'inscripcion',
+        'ofertaMateria',
+        'ofertaMateria.materia',
+        'ofertaMateria.docente.persona',
+        'inscripcion',
+        'inscripcion.estudiante',
+        'inscripcion.estudiante.persona',
+        'inscripcion.planEstudio',
+      ],
+      defaultJoins: [
+        'inscripcion',
+        'ofertaMateria',
+        'ofertaMateria.materia',
+        'ofertaMateria.docente.persona',
+        'inscripcion',
+        'inscripcion.estudiante',
+        'inscripcion.estudiante.persona',
+        'inscripcion.planEstudio',
+      ],
     });
   }
 }
