@@ -7,6 +7,10 @@ import {
   Param,
   Delete,
   Query,
+  Request,
+  UseGuards,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { EstudianteService } from './estudiante.service';
 import { CreateEstudianteDto } from './dto/create-estudiante.dto';
@@ -17,13 +21,44 @@ import {
   ApiParam,
   ApiQuery,
   ApiResponse,
+  ApiBearerAuth,
+  ApiSecurity,
 } from '@nestjs/swagger';
+import { Roles } from 'src/auth/roles/roles.decorator';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { RoleGuard } from 'src/auth/role/role.guard';
 
 @ApiTags('Estudiantes')
 @Controller('estudiante')
+@ApiBearerAuth('access-token') //edit here
 export class EstudianteController {
   constructor(private readonly estudianteService: EstudianteService) {}
 
+  /* ACCESO ESTUDIANTES */
+
+  @Get('/materias')
+  @UseGuards(JwtAuthGuard, RoleGuard)
+  @Roles('ESTUDIANTE')
+  async getMateriasEstudiante(
+    @Query('idInscripcion') idInscripcion: string,
+    @Request() req,
+  ) {
+    const idEstudiante = req.user.id as string;
+
+    // Validar si idInscripcion está presente
+    if (!idInscripcion || !idEstudiante) {
+      throw new HttpException(
+        'La inscripcion es requerida',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    return await this.estudianteService.getMateriasEstudiante(
+      idEstudiante,
+      idInscripcion,
+    );
+  }
+
+  /* ACCESO ADMINISTRADOR */
   @Post()
   @ApiOperation({ summary: 'Crear un nuevo estudiante' })
   @ApiResponse({ status: 201, description: 'Estudiante creado exitosamente' })

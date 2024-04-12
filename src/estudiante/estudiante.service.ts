@@ -46,4 +46,49 @@ export class EstudianteService extends PrismaCrudService {
       usuario: usuarioDB,
     };
   }
+
+  async getMateriasEstudiante(idEstudiante: string, idInscripcion: string) {
+    const registroDeMateriaService = new PrismaCrudService({
+      model: 'registroDeMateria',
+      allowedJoins: [
+        'inscripcion',
+        'ofertaMateria',
+        'ofertaMateria.materia',
+        'ofertaMateria.docente.persona',
+        'inscripcion',
+        'inscripcion.estudiante',
+        'inscripcion.estudiante.persona',
+        'inscripcion.planEstudio',
+      ],
+      defaultJoins: [
+        'inscripcion',
+        'ofertaMateria',
+        'ofertaMateria.materia',
+        'ofertaMateria.docente.persona',
+        'inscripcion',
+        'inscripcion.estudiante',
+        'inscripcion.estudiante.persona',
+        'inscripcion.planEstudio',
+      ],
+    });
+
+    console.log({
+      inscripcion: {
+        idInscripcion,
+        idEstudiante,
+      },
+    });
+    const registrosDeMateria = await registroDeMateriaService.findMany({
+      crudQuery: {
+        where: {
+          inscripcion: {
+            idInscripcion,
+            idEstudiante,
+          },
+        },
+      },
+    });
+
+    return registrosDeMateria;
+  }
 }

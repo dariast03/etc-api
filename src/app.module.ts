@@ -15,6 +15,7 @@ import { AuthModule } from './auth/auth.module';
 import { PersonaModule } from './persona/persona.module';
 import { EstudianteModule } from './estudiante/estudiante.module';
 import { DocenteModule } from './docente/docente.module';
+//import { EstudianteModule } from './modules/estudiante/estudiante.module';
 
 @Module({
   imports: [

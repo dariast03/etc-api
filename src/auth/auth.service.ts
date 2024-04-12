@@ -39,17 +39,29 @@ export class AuthService {
     return user;
   }
 
-  async login(loginUserDto: LoginUsuarioDto): Promise<any> {
-    // find user in db
-    const user = await this.usersService.findByLogin(loginUserDto);
-
-    // generate and sign token
-    // TODO: FIX
-    const token = this._createToken(user);
+  async refreshToken(user: JwtPayload): Promise<string> {
+    const token = this._createToken({
+      correo: user.correo,
+      rol: user.rol as Role,
+    });
 
     return {
       ...token,
       data: user,
+    };
+  }
+
+  async login(loginUserDto: LoginUsuarioDto): Promise<any> {
+    // find user in db
+    const user = await this.usersService.findByLogin(loginUserDto);
+
+    const token = this._createToken(user as CreateToken);
+
+    const { contrasena, ...result } = user as Usuario;
+
+    return {
+      ...token,
+      data: result,
     };
   }
 

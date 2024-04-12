@@ -11,28 +11,39 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiSecurity, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { UsuarioService } from '../usuario/usuario.service';
 import { JwtAuthGuard } from './jwt-auth.guard';
 import { CreateUsuarioDto, UpdatePasswordDto } from '../usuario/dto';
 import { AuthService, RegistrationStatus } from './auth.service';
 import { LoginUsuarioDto } from '../usuario/dto/login-user.dto';
+import { RoleGuard } from './role/role.guard';
+import { Roles } from './roles/roles.decorator';
 
 @ApiTags('auth')
 @Controller('auth')
+@ApiBearerAuth('access-token') //edit here
 export class AuthController {
   constructor(
     private readonly usersService: UsuarioService,
     private readonly authService: AuthService,
   ) {}
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard) // RoleGuard
+  //@Roles('DOCENTE')
   @ApiSecurity('access-key')
   @UseInterceptors(ClassSerializerInterceptor)
   @Get('me')
   public async me(@Request() req) {
     return req.user;
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('refresh')
+  public async refresh(@Request() req) {
+    return await this.authService.refreshToken(req.user);
+  }
+
   @UseGuards(JwtAuthGuard)
   @ApiSecurity('access-key')
   @UseInterceptors(ClassSerializerInterceptor)
