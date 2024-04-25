@@ -17,7 +17,7 @@ model Persona {
   id              String      @id @default(cuid())
   nombre          String
   apellido        String
-  nroDocumento    String?     @unique // ! dni to nroDocumento
+  nroDocumento    String      @unique // ! dni to nroDocumento
   fechaNacimiento DateTime?
   correoPersonal  String? // !email to correoPersonal
   telefono        String?
