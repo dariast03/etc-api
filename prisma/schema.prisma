@@ -17,19 +17,20 @@ model Persona {
   id              String      @id @default(cuid())
   nombre          String
   apellido        String
-  dni             Int         @unique
-  fechaNacimiento DateTime
-  email           String      @unique
-  telefono        String
+  nroDocumento    String?     @unique // ! dni to nroDocumento
+  fechaNacimiento DateTime?
+  correoPersonal  String? // !email to correoPersonal
+  telefono        String?
   docente         Docente?
   estudiante      Estudiante?
 }
 
 model Docente {
-  id            String          @unique
-  persona       Persona         @relation(fields: [id], references: [id], map: "persona_docente_fk")
-  usuario       Usuario         @relation(fields: [id], references: [id], map: "usuario_docente_fk")
-  ofertaMateria OfertaMateria[]
+  id              String          @unique
+  especializacion String?
+  persona         Persona         @relation(fields: [id], references: [id], map: "persona_docente_fk")
+  usuario         Usuario         @relation(fields: [id], references: [id], map: "usuario_docente_fk")
+  ofertaMateria   OfertaMateria[]
 }
 
 model Estudiante {
@@ -41,7 +42,7 @@ model Estudiante {
 
 model Usuario {
   id                 String   @id @default(cuid())
-  correo             String
+  correo             String   @unique
   contrasena         String
   rol                Role     @default(ESTUDIANTE)
   fechaCreacion      DateTime @default(now())
@@ -80,17 +81,32 @@ model Turno {
   ofertaMateria OfertaMateria[]
 }
 
+model Oferta {
+  id            String          @id @default(cuid())
+  mes           String
+  anio          Int
+  descripcion   String
+  ofertaMateria OfertaMateria[]
+}
+
 model OfertaMateria {
   id                String              @id @default(cuid())
   cupo              Int
+  cupoDisponible    Int
+  grupo             String
+  creadoEn          DateTime            @default(now())
+  actualizadoEn     DateTime            @updatedAt
+  estado            Estado              @default(ACTIVO)
   materia           Materia             @relation(fields: [idMateria], references: [id])
   turno             Turno               @relation(fields: [idTurno], references: [id])
   aula              Aula                @relation(fields: [idAula], references: [id])
   docente           Docente             @relation(fields: [idDocente], references: [id])
+  oferta            Oferta              @relation(fields: [idOferta], references: [id])
   idMateria         String
   idTurno           String
   idAula            String
   idDocente         String
+  idOferta          String
   registroDeMateria RegistroDeMateria[]
 }
 
@@ -103,16 +119,23 @@ model Aula {
 
 model RegistroDeMateria {
   id              String        @id @default(cuid())
-  nota            Float
+  nota            Float?
   estado          String
   inscripcion     Inscripcion   @relation(fields: [idInscripcion], references: [id])
   ofertaMateria   OfertaMateria @relation(fields: [idOfertaMateria], references: [id])
   idInscripcion   String
   idOfertaMateria String
+  creadoEn        DateTime      @default(now())
+  actualizadoEn   DateTime      @updatedAt
 }
 
 enum Role {
   ESTUDIANTE
   ADMIN
   DOCENTE
+}
+
+enum Estado {
+  ACTIVO
+  DESACTIVADO
 }
