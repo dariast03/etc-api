@@ -18,7 +18,7 @@ export class DocenteService extends PrismaCrudService {
   }
 
   async createWithUserAndPerson(createDocenteDto: CreateDocenteDto) {
-    const { persona, usuario } = createDocenteDto;
+    const { persona, usuario, especializacion } = createDocenteDto;
 
     const personaDB = await this.prismaService.persona.create({
       data: {
@@ -44,6 +44,7 @@ export class DocenteService extends PrismaCrudService {
       ...docenteDB,
       persona: personaDB,
       usuario: usuarioDB,
+      especializacion,
     };
   }
 }

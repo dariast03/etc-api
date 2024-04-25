@@ -7,19 +7,55 @@ import {
   Param,
   Delete,
   Query,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { DocenteService } from './docente.service';
 import { CreateDocenteDto } from './dto/create-docente.dto';
 import { UpdateDocenteDto } from './dto/update-docente.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { PrismaService } from '../../../prisma.service';
 
 @ApiTags('ADMIN Docentes')
 @Controller('docente')
 export class DocenteController {
-  constructor(private readonly docenteService: DocenteService) {}
+  constructor(
+    private readonly docenteService: DocenteService,
+    private readonly prismaService: PrismaService,
+  ) {}
 
   @Post()
   async create(@Body() createDocenteDto: CreateDocenteDto) {
+    const existsNroDocumento = await this.prismaService.persona.findFirst({
+      where: { nroDocumento: createDocenteDto.persona.nroDocumento },
+    });
+
+    if (existsNroDocumento)
+      throw new HttpException(
+        'El nro documento ya se encuentra registrado',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const existCorreo = await this.prismaService.usuario.findFirst({
+      where: { correo: createDocenteDto.usuario.correo },
+    });
+
+    if (existCorreo)
+      throw new HttpException(
+        'El correo ya se encuentra registrado',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const existeCorreoPersonal = await this.prismaService.persona.findFirst({
+      where: { correoPersonal: createDocenteDto.persona.correoPersonal },
+    });
+
+    if (existeCorreoPersonal)
+      throw new HttpException(
+        'El correo personal ya se encuentra registrado',
+        HttpStatus.BAD_REQUEST,
+      );
+
     const created =
       await this.docenteService.createWithUserAndPerson(createDocenteDto);
     return created;

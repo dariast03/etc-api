@@ -13,4 +13,10 @@ export class CreateDocenteDto {
     type: CreateUsuarioDto,
   })
   usuario: CreateUsuarioDto;
+
+  @ApiProperty({
+    description: 'Información de la especializacion asociado al estudiante',
+    example: 'Idiomas',
+  })
+  especializacion: string;
 }
