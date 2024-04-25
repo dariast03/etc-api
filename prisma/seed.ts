@@ -91,7 +91,7 @@ async function main() {
 
   await prisma.docente.create({
     data: {
-      id: id as any,
+      id: idDocente as any,
     },
   });
   /*
