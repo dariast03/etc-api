@@ -1,10 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.useGlobalPipes(new ValidationPipe());
   app.enableCors({
     origin: ['https://etc-api-ten.vercel.app/materia', 'http://localhost:5173'],
     methods: 'GET, HEAD, PUT, POST, DELETE, OPTIONS, PATCH',
@@ -17,7 +18,6 @@ async function bootstrap() {
     .setTitle('Etc Api')
     .setDescription('The etc API description')
     .setVersion('1.0')
-    .addTag('etc')
     .addBearerAuth(
       {
         // I was also testing it without prefix 'Bearer ' before the JWT
@@ -33,7 +33,11 @@ async function bootstrap() {
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document);
+  SwaggerModule.setup('api', app, document, {
+    swaggerOptions: {
+      docExpansion: 'none',
+    },
+  });
 
   await app.listen(3000);
 }
