@@ -29,6 +29,24 @@ export class RegistroDeMateriaController {
     @Body() createRegistroDeMateriaDto: CreateRegistroDeMateriaDto,
     @Query('crudQuery') crudQuery: string,
   ) {
+    //validate cupo
+
+    const ofertaMateria = await this.prismaService.ofertaMateria.findFirst({
+      where: { id: createRegistroDeMateriaDto.idOfertaMateria },
+    });
+
+    if (!ofertaMateria)
+      throw new HttpException(
+        'No existe la oferta de materia',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (ofertaMateria.cupoDisponible <= 0)
+      throw new HttpException(
+        'No hay cupo disponible en esta oferta de materia',
+        HttpStatus.BAD_REQUEST,
+      );
+
     const existRegistroInSameMateriaAndSameOffer =
       await this.prismaService.registroDeMateria.findFirst({
         where: {
@@ -52,6 +70,16 @@ export class RegistroDeMateriaController {
       createRegistroDeMateriaDto,
       { crudQuery },
     );
+
+    if (ofertaMateria) {
+      await this.prismaService.ofertaMateria.update({
+        where: { id: ofertaMateria.id },
+        data: {
+          cupoDisponible: ofertaMateria.cupoDisponible - 1,
+        },
+      });
+    }
+
     return created;
   }
 
@@ -78,6 +106,23 @@ export class RegistroDeMateriaController {
     @Body() updateRegistroDeMateriaDto: UpdateRegistroDeMateriaDto,
     @Query('crudQuery') crudQuery: string,
   ) {
+    if (
+      updateRegistroDeMateriaDto.nota == null ||
+      updateRegistroDeMateriaDto.nota == undefined
+    ) {
+      updateRegistroDeMateriaDto.nota = null;
+    } else if (
+      updateRegistroDeMateriaDto.nota >= 0 &&
+      updateRegistroDeMateriaDto.nota < 51
+    ) {
+      updateRegistroDeMateriaDto.estado = 'REPROBADO';
+    } else if (
+      updateRegistroDeMateriaDto.nota >= 51 &&
+      updateRegistroDeMateriaDto.nota <= 100
+    ) {
+      updateRegistroDeMateriaDto.estado = 'APROBADO';
+    }
+
     const updated = await this.registroDeMateriaService.update(
       id,
       updateRegistroDeMateriaDto,
