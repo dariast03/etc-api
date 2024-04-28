@@ -10,7 +10,7 @@ export enum RoleEnum {
 }
 
 export class CreateUsuarioDto {
-  @IsNotEmpty()
+  //@IsNotEmpty()
   id: string;
 
   @IsNotEmpty()
@@ -20,7 +20,7 @@ export class CreateUsuarioDto {
   })
   correo: string;
 
-  @IsNotEmpty()
+  /*   @IsNotEmpty() */
   @ApiProperty({
     example: 'password123',
     description: 'Contraseña del usuario',
@@ -28,6 +28,6 @@ export class CreateUsuarioDto {
   contrasena: string;
 
   @IsEnum(Role)
-  @IsNotEmpty()
+  /*   @IsNotEmpty() */
   rol: Role;
 }
