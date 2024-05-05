@@ -47,9 +47,26 @@ export class AuthService {
       rol: user.rol as Role,
     });
 
+    const userDB = await this.prisma.usuario.findFirst({
+      where: {
+        correo: user.correo,
+      },
+    });
+
+    const persona = await this.prisma.persona.findFirst({
+      where: {
+        id: userDB?.id,
+      },
+    });
+
     return {
       ...token,
-      data: user,
+      data: {
+        ...user,
+        profile: {
+          ...persona,
+        },
+      },
     };
   }
 
@@ -61,9 +78,26 @@ export class AuthService {
 
     const { contrasena, ...result } = user as Usuario;
 
+    const userDB = await this.prisma.usuario.findFirst({
+      where: {
+        correo: user.correo,
+      },
+    });
+
+    const persona = await this.prisma.persona.findFirst({
+      where: {
+        id: userDB?.id,
+      },
+    });
+
     return {
       ...token,
-      data: result,
+      data: {
+        ...user,
+        profile: {
+          ...persona,
+        },
+      },
     };
   }
 
