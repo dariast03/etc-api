@@ -22,6 +22,10 @@ export class RegistroDeMateriaService extends PrismaCrudService {
         'inscripcion.estudiante',
         'inscripcion.estudiante.persona',
       ],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

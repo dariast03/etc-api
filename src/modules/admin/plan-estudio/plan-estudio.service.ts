@@ -8,6 +8,10 @@ export class PlanEstudioService extends PrismaCrudService {
       model: 'planEstudio',
       allowedJoins: [],
       defaultJoins: [],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

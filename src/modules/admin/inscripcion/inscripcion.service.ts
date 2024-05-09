@@ -8,6 +8,10 @@ export class InscripcionService extends PrismaCrudService {
       model: 'inscripcion',
       allowedJoins: ['estudiante', 'estudiante.persona', 'planEstudio'],
       defaultJoins: ['estudiante', 'estudiante.persona', 'planEstudio'],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

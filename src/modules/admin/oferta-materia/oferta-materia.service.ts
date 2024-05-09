@@ -22,6 +22,10 @@ export class OfertaMateriaService extends PrismaCrudService {
         'docente.persona',
         'oferta',
       ],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

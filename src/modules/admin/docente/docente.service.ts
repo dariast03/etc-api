@@ -14,6 +14,10 @@ export class DocenteService extends PrismaCrudService {
       model: 'docente',
       allowedJoins: ['persona', 'usuario'],
       defaultJoins: ['persona', 'usuario'],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 

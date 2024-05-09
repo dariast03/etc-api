@@ -16,6 +16,10 @@ export class UsuarioService extends PrismaCrudService {
       model: 'usuario',
       allowedJoins: [],
       defaultJoins: [],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 
@@ -78,6 +82,7 @@ export class UsuarioService extends PrismaCrudService {
       throw new HttpException('invalid_credentials', HttpStatus.UNAUTHORIZED);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { contrasena: p, ...rest } = user;
     return rest;
   }

@@ -8,6 +8,10 @@ export class AulaService extends PrismaCrudService {
       model: 'aula',
       allowedJoins: [],
       defaultJoins: [],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

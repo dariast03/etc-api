@@ -8,6 +8,10 @@ export class MateriaService extends PrismaCrudService {
       model: 'materia',
       allowedJoins: [],
       defaultJoins: [],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

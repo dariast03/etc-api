@@ -8,6 +8,10 @@ export class OfertaMateriaService extends PrismaCrudService {
       model: 'ofertaMateria',
       allowedJoins: ['aula', 'turno', 'materia'],
       defaultJoins: ['aula', 'turno', 'materia'],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }

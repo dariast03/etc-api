@@ -8,6 +8,10 @@ export class TurnoService extends PrismaCrudService {
       model: 'turno',
       allowedJoins: [],
       defaultJoins: [],
+      paginationConfig: {
+        maxPageSize: 99999999,
+        defaultPageSize: 99999999,
+      },
     });
   }
 }
