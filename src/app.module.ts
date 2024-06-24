@@ -21,6 +21,8 @@ import { DocenteOfertaMateriaModule } from './modules/teacher/oferta-materia/ofe
 import { DocenteRegistroDeMateriaModule } from './modules/teacher/registro-de-materia/registro-de-materia.module';
 //import { EstudianteModule } from './modules/estudiante/estudiante.module';
 import { OfertaModule } from './modules/admin/oferta/oferta.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -132,7 +134,7 @@ import { OfertaModule } from './modules/admin/oferta/oferta.module';
     ]),
     OfertaModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
