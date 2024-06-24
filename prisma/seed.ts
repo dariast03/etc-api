@@ -11,7 +11,7 @@ async function main() {
     },
   });
 
-  const personaDB = await prisma.persona.create({
+/*   const personaDB = await prisma.persona.create({
     data: {
       nombre: 'Dante Emanuel',
       apellido: 'Arias Tarifa',
@@ -37,7 +37,7 @@ async function main() {
     data: {
       id: id as any,
     },
-  });
+  }); */
 
   /*  await prisma.estudiante.create({
     data: {
@@ -67,7 +67,7 @@ async function main() {
     },
   }); */
 
-  const personaDocenteDB = await prisma.persona.create({
+ /*  const personaDocenteDB = await prisma.persona.create({
     data: {
       nombre: 'Osmar ',
       apellido: 'Tito Ticona',
@@ -93,7 +93,7 @@ async function main() {
     data: {
       id: idDocente as any,
     },
-  });
+  }); */
   /*
   danteariastarifa@gmail.com
   $2b$10$PSehcUe.q2BxEO5yJIj.4O2uQC4KZ8aOhDVPk8./.NCRnu2qDM0la

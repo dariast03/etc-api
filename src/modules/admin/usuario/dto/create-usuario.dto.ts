@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty } from 'class-validator';
+import {  IsNotEmpty } from 'class-validator';
 
 import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '@prisma/client';
@@ -27,7 +27,6 @@ export class CreateUsuarioDto {
   })
   contrasena: string;
 
-  @IsEnum(Role)
   /*   @IsNotEmpty() */
   rol: Role;
 }

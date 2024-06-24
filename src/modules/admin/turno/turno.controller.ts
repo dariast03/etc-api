@@ -11,7 +11,6 @@ import {
 import { TurnoService } from './turno.service';
 import { CreateTurnoDto } from './dto/create-turno.dto';
 import { UpdateTurnoDto } from './dto/update-turno.dto';
-import { PrismaClient } from '@prisma/client';
 import { PrismaService } from 'src/prisma.service';
 import { ApiTags } from '@nestjs/swagger';
 
